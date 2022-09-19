@@ -1,0 +1,14 @@
+Plus. Exp ::= Exp "+" Exp1 ;
+Minus. Exp ::= Exp "-" Exp1 ;
+Times. Exp1 ::= Exp1 "*" Exp2 ;
+Div. Exp1 ::= Exp1 "/" Exp2 ;
+Pow. Exp2 ::= Exp3 "^" Exp2 ;
+Op1. Exp4 ::= Exp4 "op1" Exp5 ;
+Op2. Exp5 ::= Exp5 "op2" Exp6 ;
+Neg. Exp6 ::= "-" Exp6 ;
+Num. Exp6 ::= Integer ;
+
+coercions Exp 6 ;
+
+-- bnfc -m --haskell numbers.cf  
+-- make  
