@@ -1,5 +1,6 @@
 \documentclass{article}
-
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
 \usepackage{amsthm}
 \usepackage{amsfonts}
 \usepackage{amsmath}
@@ -236,6 +237,41 @@ func other( x, y ) {
 
 \end{lstlisting}
 
+\subsection{Week 4}
+{\large derivation trees\\}
+
+\includegraphics[width=1\textwidth]{tree.jpeg}
+
+{\large "More exercises"\\}
+Why do the following strings not have parse trees (given the context-free grammar above)?
+
+\begin{verbatim}
+ 2-1: No rule for subtraction
+ 1.0+2: Only rules for integers
+ 6/3: No specification for division
+ 8 mod 6: No specification for modulus
+\end{verbatim}
+
+Can you change the grammar, so that the strings in the previous exercise become parsable?
+
+\begin{verbatim}
+ yes you can, I would assume for modulus as well
+\end{verbatim}
+
+write out the abstract syntax trees for the following strings:
+\begin{verbatim}
+ 2+1: Plus (Num 2) (Num 1)
+ 1+2*3: Plus (Num 1) (Times (Num 2) (Num 3))
+ 1+(2*3): Plus (Num 1) (Times (Num 2) (Num 3))
+ (1+2)*3: Times (Plus (Num 1) (Num 2)) (Num 3)
+\end{verbatim}
+
+Is the abstract syntax tree of 1+2+3 identical to the one of (1+2)+3 or the one of 1+(2+3)?
+\begin{verbatim}
+ No particular right answer.
+\end{verbatim}
+
+
 % \ldots
 
 \section{Project}
@@ -261,4 +297,5 @@ Thanks, goodbye.
 \bibitem[PL]{PL} \href{https://github.com/alexhkurz/programming-languages-2022/blob/main/README.md}{Programming Languages 2022}, Chapman University, 2022.
 \end{thebibliography}
 
+\includegraphics {sss.png}
 \end{document}
