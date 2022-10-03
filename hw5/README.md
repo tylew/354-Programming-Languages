@@ -1,7 +1,7 @@
 # HW 5
-## CPSC 354
-## Tyler Lewis
-## Editor of choice: TextEdit
+#### CPSC 354
+#### Tyler Lewis
+#### Editor of choice: TextEdit
 
 ### Steps taken:
 
