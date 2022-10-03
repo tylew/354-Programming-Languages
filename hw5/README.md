@@ -5,11 +5,13 @@
 
 ### Steps taken:
 
-> Used file (LambdaNat0.cf)[https://github.com/alexhkurz/programming-languages-2022/blob/main/src/LambdaNat0/grammar/LambdaNat0.cf] from course repository to generate parser for Lambda Calc expressions
+> Used file [LambdaNat0.cf](https://github.com/alexhkurz/programming-languages-2022/blob/main/src/LambdaNat0/grammar/LambdaNat0.cf) from course repository to generate parser for Lambda Calc expressions
 
-Build parser: bnfc -m --haskell grammar/LambdaNat0.cf && make
+1. Build parser: bnfc -m --haskell grammar/LambdaNat0.cf && make
 
-To parse (\ x.x): echo "\ x.x" | ./TestLambdaNat
+2. To parse (\ x.x): echo "\ x.x" | ./TestLambdaNat
+
+
 
 
 bnfc parser:
