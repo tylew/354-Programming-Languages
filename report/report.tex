@@ -57,6 +57,7 @@
 \date{\today}
 
 \begin{document}
+\setlength\parindent{24pt}
 
 \maketitle
 
@@ -271,7 +272,60 @@ Is the abstract syntax tree of 1+2+3 identical to the one of (1+2)+3 or the one 
  No particular right answer.
 \end{verbatim}
 
-\subsection{Week 5}
+\subsection{Week 5 (line 350)} 
+
+Use the parser to generate linearized abstract syntax trees for the following expressions:
+
+\parindent x
+\begin{verbatim}
+Prog (EVar (Id "x"))
+\end{verbatim}
+x x
+\begin{verbatim}
+Prog (EApp (EVar (Id "x")) (EVar (Id "x")))
+\end{verbatim}
+x y
+\begin{verbatim}
+Prog (EApp (EVar (Id "x")) (EVar (Id "y")))
+\end{verbatim}
+x y z
+\begin{verbatim}
+Prog (EApp (EApp (EVar (Id "x")) (EVar (Id "y"))) (EVar (Id "z")))
+\end{verbatim}
+\textbackslash x.x
+\begin{verbatim}
+Prog (EAbs (Id "x") (EVar (Id "x")))
+\end{verbatim}
+\textbackslash x.x x
+\begin{verbatim}
+Prog (EAbs (Id "x") (EApp (EVar (Id "x")) (EVar (Id "x"))))
+\end{verbatim}
+(\textbackslash x . (\textbackslash y . x y)) (\textbackslash x.x) z
+\begin{verbatim}
+Prog (EApp (EApp (EAbs (Id "x") (EAbs (Id "y") (EApp (EVar (Id "x")) (EVar (Id "y"))))) (EAbs (Id "x") 
+(EVar (Id "x")))) (EVar (Id "z")))
+\end{verbatim}
+(\textbackslash x . \textbackslash y . x y z) a b c
+\begin{verbatim}
+Prog (EApp (EApp (EApp (EAbs (Id "x") (EAbs (Id "y") (EApp (EApp (EVar (Id "x")) 
+(EVar (Id "y"))) (EVar (Id "z"))))) (EVar (Id "a"))) (EVar (Id "b"))) (EVar (Id "c")))
+\end{verbatim}
+
+Write out the abstract syntax trees in 2-dimensional notation using pen and paper.
+
+\includegraphics[width=.80\textwidth]{wk5_abstracttrees.png}
+
+Evaluate using pen-and-paper [2] the following expressions:
+
+\includegraphics[width=.5\textwidth]{wk5_lambdasemantics.png}
+
+Evaluate (\x.x)((\y.y)a) by executing the function evalCBN defined on line 26-28 in Interpreter.hs pen-and-paper. The function subst is doing capture avoiding substitution and you can reduce subst in one step in your pen and paper computation
+
+\includegraphics[width=.5\textwidth]{wk5_evalcbn.png}
+
+
+
+
 
 % \ldots
 
@@ -298,5 +352,5 @@ Thanks, goodbye.
 \bibitem[PL]{PL} \href{https://github.com/alexhkurz/programming-languages-2022/blob/main/README.md}{Programming Languages 2022}, Chapman University, 2022.
 \end{thebibliography}
 
-\includegraphics {sss.png}
+% \includegraphics {sss.png}
 \end{document}
