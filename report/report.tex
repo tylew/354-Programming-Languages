@@ -1,4 +1,4 @@
-\documentclass{article}
+zz\documentclass{article}
 \usepackage{graphicx}
 \graphicspath{ {./images/} }
 \usepackage{amsthm}
@@ -272,7 +272,7 @@ Is the abstract syntax tree of 1+2+3 identical to the one of (1+2)+3 or the one 
  No particular right answer.
 \end{verbatim}
 
-\subsection{Week 5 (line 350)} 
+\subsection{Week 5 (line 300)} 
 
 Use the parser to generate linearized abstract syntax trees for the following expressions:
 
@@ -323,7 +323,54 @@ Evaluate (\x.x)((\y.y)a) by executing the function evalCBN defined on line 26-28
 
 \includegraphics[width=.5\textwidth]{wk5_evalcbn.png}
 
+\subsection{Week 6 (line 350}
 
+\begin{verbatim}
+Reduce the following lambda calculus expression:
+
+    (\exp . \two . \three . exp two three)
+    (\m.\n. m n)
+    (\f.\x. f (f x))
+    (\f.\x. f (f (f x)))
+
+ 
+    ( (\m.\n. m n) (\f.\x. f (f x)) (\f.\x. f (f (f x))) )  --β Substitution
+
+    ( (\m.\n. m n) (\f.\x. f (f x)) (\x0.\x1. x0 (x0 (x0 x1))) )  --α conversion
+
+    ( (\n.  (\f.(\x. f (f x))) n) (\x0.(\x1. x0 (x0 (x0 x1)))) )  --β Substitution
+
+    ( (\f.(\x. f (f x))) (\x0.(\x1. x0 (x0 (x0 x1)))) )  --β Substitution
+
+    ( ((\x. (\x0.(\x1. x0 (x0 (x0 x1)))) ((\x0.(\x1. x0 (x0 (x0 x1)))) x))) )  --β Substitution
+
+    ( ((\x. (\x0.(\x1. x0 (x0 (x0 x1)))) ((\x2.(\x3. x2 (x2 (x2 x3)))) x))) )  --α conversion
+
+    ( ((\x. ((\x1. ((\x2.(\x3. x2 (x2 (x2 x3)))) x) (((\x2.(\x3. x2 (x2 (x2 x3)))) x) 
+    (((\x2.(\x3. x2 (x2 (x2 x3)))) x) x1)))) )) )  --β Substitution
+
+    ( ((\x. ((\x1. ((\x2.(\x3. x2 (x2 (x2 x3)))) x) (((\x4.(\x5. x4 (x4 (x4 x5)))) x) 
+    (((\x6.(\x7. x6 (x6 (x6 x7)))) x) x1)))) )) )  --α conversion
+
+    ( ((\x. ((\x1. (\x3. x (x (x x3))) (((\x4.(\x5. x4 (x4 (x4 x5)))) x) 
+    (((\x6.(\x7. x6 (x6 (x6 x7)))) x) x1)) )))))  --β Substitution
+
+    (\x. (\x1. (x (x (x (((\x4.(\x5. x4 (x4 (x4 x5)))) x) (((\x6.(\x7. x6 (x6 (x6 x7)))) x) 
+    x1)) )))))  --β Substitution
+
+    (\x. (\x1. (x (x (x (((\x5. x (x (x x5)))) (((\x6.(\x7. x6 (x6 (x6 x7)))) x) 
+    x1)) )))))  --β Substitution
+
+    (\x. (\x1. (x (x (x (x (x (x (((\x6.(\x7. x6 (x6 (x6 x7)))) x) x1)))) )))))  --β Substitution
+
+    (\x. (\x1. (x (x (x (x (x (x ((\x7. x (x (x x7))) x1)))) )))))  --β Substitution
+
+    (\x. (\x1. (x (x (x (x (x (x (x (x (x x1)))))))) )))  --β Substitution, final
+
+Algrbra formula:
+
+    f(m,n) = n^m
+\end{verbatim}
 
 
 
@@ -336,6 +383,13 @@ Introductory remarks ...
 The following structure should be suitable for most practical projects. 
 
 \subsection{Specification}
+
+For my project I wish to design an interpreter for a programming language of my own design.
+
+
+
+\href{https://www.stephendiehl.com/llvm/}{Possible launch point}
+
 \subsection{Prototype}
 \subsection{Documentation}
 \subsection{Critical Appraisal}
