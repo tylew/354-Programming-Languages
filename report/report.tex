@@ -321,9 +321,9 @@ Evaluate using pen-and-paper [2] the following expressions:
 
 Evaluate (\x.x)((\y.y)a) by executing the function evalCBN defined on line 26-28 in Interpreter.hs pen-and-paper. The function subst is doing capture avoiding substitution and you can reduce subst in one step in your pen and paper computation
 
-\includegraphics[width=.5\textwidth]{wk5_evalcbn.png}
 
-\subsection{Week 6 (line 350}
+
+\subsection{Week 6 (line 350)}
 
 \begin{verbatim}
 Reduce the following lambda calculus expression:
@@ -372,7 +372,69 @@ Algrbra formula:
     f(m,n) = n^m
 \end{verbatim}
 
+\subsection{Week 7 (line 400)}
+1. \href{https://github.com/alexhkurz/programming-languages-2022/blob/main/src/LambdaNat0/src/Interpreter-fragment.hs}{REFERENCE}, in lines 5-7 and also in lines 18-22 explain for each variable
+\begin{itemize}
+\item   Whether it is bound or free
+\item   If it is bound say what  the binder and the scope of the variable are
+\end{itemize}
 
+\textit{lines 5-7:}
+
+\textbf{evalCBN, and subst} are function names declared outside our scope and thus are \textbf{free}.
+
+\textbf{EApp, and EAbs} are type variables declared elsewhere and thus are \textbf{free} within our scope. 
+
+\textbf{e1, e2, e3, i, and x} are placeholders and can be interchanged with another fresh variable at will making them \textbf{bound}.
+
+\textit{lines 18-22:}
+
+\textbf{subst, and fresh} are function names declared outside our scope and thus are \textbf{free}.
+
+\textbf{id, EAbs, and EVar} are type variables declared elsewhere and thus are \textbf{free} within our scope. 
+
+\textbf{s, id1, e1, f, and e2} are placeholders and can be interchanged with another fresh variable at will making them \textbf{bound}.
+
+2. evalCBN part of hw5 using equal sign
+\begin{verbatim}
+evalCBN( EApp (\x.x) ((\y.y) a) )
+
+= EAbs x x → evalCBN( subst x ((\y.y) a) x )
+
+= evalCBN( subst x ((\y.y) a) x )
+
+= evalCBN( EApp (\y. y) a )
+
+= EAbs y y → evalCBN(subst y a y)
+
+= evalCBN(a)
+
+= a
+\end{verbatim}
+
+3. This item is as the previous one, but for a different lambda term, namely `(\x.\y.x) y z`
+
+\begin{verbatim}
+(\x.\y. x) y z
+
+= (\x.\y’. x) y z
+
+= (\y’. y) z
+
+= y
+\end{verbatim}
+
+4.  https://hackmd.io/@alexhkurz/BJ7AoGcVK
+
+Consider the listed ARSs
+
+\includegraphics[width=1\textwidth]{IMG_0034.jpg}
+
+Try to find an example of an ARS for each of the possible 8 combinations.
+
+\includegraphics[width=1\textwidth]{IMG_0035.jpg}
+
+\includegraphics[width=.7\textwidth]{hw7diagram3.jpeg}
 
 % \ldots
 
