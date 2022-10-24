@@ -373,6 +373,7 @@ Algrbra formula:
 \end{verbatim}
 
 \subsection{Week 7 (line 400)}
+
 1. \href{https://github.com/alexhkurz/programming-languages-2022/blob/main/src/LambdaNat0/src/Interpreter-fragment.hs}{REFERENCE}, in lines 5-7 and also in lines 18-22 explain for each variable
 \begin{itemize}
 \item   Whether it is bound or free
@@ -436,6 +437,36 @@ Try to find an example of an ARS for each of the possible 8 combinations.
 
 \includegraphics[width=.7\textwidth]{hw7diagram3.jpeg}
 
+\subsection{Week 8 (line 450)}
+Rewrite rules are
+\begin{verbatim}
+    aa -> a
+    bb -> b
+    ba -> ab
+    ab -> ba
+\end{verbatim}
+\begin{itemize}
+\item Why does the ARS not terminate?
+
+The ARS can get caught in an infinite loop between ‘ab’ and ‘ba’
+
+\item What are the normal forms?
+
+Normal forms of the ARS are a & b
+
+\item Can you change the rules so that the new ARS has unique normal forms (but still has the same equivalence relation)?
+\begin{verbatim}
+    aa -> a
+    bb -> b
+    ba -> ab
+\end{verbatim}
+\item What do the normal forms mean? Describe the function implemented by the ARS.
+
+The normal forms is a reduction determining if the string contains either an a, b, or both.
+a’s are sifted to left, while b’s are shifted to right, duplicates are reduced.
+
+\end{itemize}
+
 % \ldots
 
 \section{Project}
@@ -446,11 +477,13 @@ The following structure should be suitable for most practical projects.
 
 \subsection{Specification}
 
-For my project I wish to design an interpreter for a programming language of my own design.
+For my project I wish to compare different Smart Contract languages. The languages I have identified are Solidity (Ethereum VM), and Move (Sui VM).
+
+My project will focus on contrast and complements between the two VM's and languages. I aim to implement an identical project in both languages to showcase notable issues and benefits to one language or the other.
 
 
 
-\href{https://www.stephendiehl.com/llvm/}{Possible launch point}
+% \href{https://www.stephendiehl.com/llvm/}{Possible launch point}
 
 \subsection{Prototype}
 \subsection{Documentation}
