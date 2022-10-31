@@ -464,6 +464,45 @@ Normal forms of the ARS are a & b
 
 The normal forms is a reduction determining if the string contains either an a, b, or both.
 a’s are sifted to left, while b’s are shifted to right, duplicates are reduced.
+\end{itemize}
+
+\subsection{Week 9 (line 500)}
+
+consider the ARS:
+\begin{verbatim}
+    ba -> ab
+    ab -> ba
+    ac -> ca
+    ca -> ac
+    bc -> cb
+    cb -> bc
+ 
+    aa -> b
+    ab -> c
+    ac ->  
+    bb ->
+    cb -> a
+    cc -> b
+\end{verbatim}  
+\begin{itemize}
+\item Normal forms: a, b, c, and [] (empty string)
+
+\item We can prove confluence by examining 3 letter combinations:
+
+\includegraphics[width=.7\textwidth]{IMG_0045.jpg}
+
+\item By assigning the following equalities:
+\begin{verbatim}
+    [] = 0
+    a = 1
+    b = 2
+    c = 3
+
+we are able to observe an invariance with the mathematical function:
+    
+    f(x,y) = (x + y) mod 4
+    
+\end{verbatim}
 
 \end{itemize}
 
@@ -479,7 +518,18 @@ The following structure should be suitable for most practical projects.
 
 For my project I wish to compare different Smart Contract languages. The languages I have identified are Solidity (Ethereum VM), and Move (Sui VM).
 
-My project will focus on contrast and complements between the two VM's and languages. I aim to implement an identical project in both languages to showcase notable issues and benefits to one language or the other.
+I aim to implement an identical project in both languages to showcase key features in either systems.
+
+Planned milestones are as follows:
+\begin{itemize}
+    \item Research and identify key differences between smart-contracting languages. Brainstorm project idea which incorporates notable differences.
+    \item Build project in both languages and 
+    \item Compile report on findings
+\end{itemize}
+    
+\begin{itemize}
+\item NFT project, with incentive to own
+\item Digital certificate messaging application/ forum (use cryptographic keys to verify and decode messages)
 
 
 
