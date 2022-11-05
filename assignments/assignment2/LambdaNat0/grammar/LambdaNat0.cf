@@ -1,0 +1,15 @@
+------------------
+-- Lambda Calculus
+------------------
+
+Prog.   Program ::= Exp ; -- this first line is redundant
+EAbs.   Exp1 ::= "\\" Id "." Exp ;  -- in effect: "\" Id "." Exp ; -- btw, pronounce "\" as "lambda" in this context
+EApp.   Exp2 ::= Exp2 Exp3 ; -- application associates on the left
+EVar.   Exp3 ::= Id ;
+
+coercions Exp 3 ;
+
+token Id (letter (letter | digit | '_')*) ; -- Identifiers start with a letter followed by any number of letters, digits, or underscores
+
+comment "//" ; 
+comment "/*" "*/" ;
