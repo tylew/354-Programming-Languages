@@ -1,0 +1,11 @@
+Plus. Exp ::= Exp "+" Exp1 ;
+Minus. Exp1 ::= Exp1 "-" Exp2 ;
+Times. Exp2 ::= Exp2 "*" Exp3 ;
+Divide. Exp3 ::= Exp3 "quot" Exp4 ;
+Exponent. Exp4 ::= Exp4 "^" Exp5 ;
+Modulus. Exp5 ::= Exp5 "mod" Exp6;
+Unary. Exp6 ::= "-" Exp6 ;
+Binary. Exp6 ::= Exp4 "--" Exp5 ;
+Num. Exp6 ::= Integer ;
+
+coercions Exp 6 ;
