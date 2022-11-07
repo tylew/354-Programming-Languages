@@ -19,7 +19,7 @@ evalCBN (EIf e0 e1 e2 e3) = if (evalCBN e0) == (evalCBN e1) then (evalCBN e2) el
 evalCBN (ELet id e0 e1) = evalCBN( EApp (EAbs id e1) e0)
 evalCBN (EFix e) = evalCBN (EApp e (EFix e))
 evalCBN (ERec i e0 e1) = evalCBN (EApp (EAbs i e0) (EFix (EAbs i e01)))
-evalCBN (EMinusOne e0) = case (evalCBN e0) of
+evalCBN (EMinusOne e) = case (evalCBN e) of
     (ENatS e) -> (evalCBN e)
     (ENatS ENat0) -> ENat0
     ENat0 -> ENat0
