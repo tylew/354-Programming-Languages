@@ -466,7 +466,7 @@ The normal forms is a reduction determining if the string contains either an a, 
 a’s are sifted to left, while b’s are shifted to right, duplicates are reduced.
 \end{itemize}
 
-\subsection{Week 9 (line 500)}
+\subsection{Week 9 (line 470)}
 
 consider the ARS:
 \begin{verbatim}
@@ -505,6 +505,70 @@ we are able to observe an invariance with the mathematical function:
 \end{verbatim}
 
 \end{itemize}
+
+\subsection{Week 10 (line 520)}
+
+\begin{verbatim}
+1.
+    let rec f = (\ x . S x) in f 0
+
+    (\f. f 0) (\x. S x)
+    (\x. S x) 0
+    S 0
+
+2.
+    let rec f = (\ x . if x = 0 then 0 else f (minus_one x)) in f (S 0)
+
+    (\f. f (S 0)) (\ x . if x = 0 then 0 else f (minus_one x))
+    (\x. if x = 0 then 0 else f (minus_one x)) (S 0)
+    if (S 0) = 0 then 0 else f (minus_one (S 0)) 
+    f (minus_one (S 0))
+    f (0) 
+
+    (\.f f 0) (\ x . if x = 0 then 0 else f (minus_one x))
+    (\ x . if x = 0 then 0 else f (minus_one x)) 0
+    if 0 = 0 then 0 else f (minus_one 0)
+    0
+
+3.
+    let rec f = (\ x . if x = 0 then 0 else f (minus_one x)) in f (S S 0)
+
+    (\f. f (S S 0)) (\ x . if x = 0 then 0 else f (minus_one x))
+    (\ x. if x = 0 then 0 else f (minus_one x)) (S S 0)
+    if (S S 0) = 0 then 0 else f (minus_one (S S 0))
+    f (minus_one (S S 0))
+    f (S 0)
+
+    (\.f f (S 0)) (\ x . if x = 0 then 0 else f (minus_one x))
+    (\ x . if x = 0 then 0 else f (minus_one x)) (S 0)
+    if (S 0) = 0 then 0 else f (minus_one (S 0))) 
+    f (minus_one (S 0))) 
+    f (0)
+
+    (\.f f 0) (\ x . if x = 0 then 0 else f (minus_one x))
+    (\ x . if x = 0 then 0 else f (minus_one x)) 0
+    if 0 = 0 then 0 else f (minus_one 0)
+    0
+
+4.
+    let rec f = (\ x . 
+        if x = 0 
+        then x 
+        else c (f (minus_one x))) 
+    in 
+        f (S 0)
+
+    (\f. f (S 0)) (\x. if x = 0 then x else c (f (minus_one x)))
+    (\x. if x = 0 then x else c (f (minus_one x))) (S 0)
+    if (S 0) = 0 then (S 0) else c (f (minus_one (S 0)))
+    c (f (minus_one (S 0)))
+    c (f (0))
+
+    c ((\f. f 0) (\x. if x = 0 then x else c (f (minus_one x))))
+    c ((\x. if x = 0 then x else c (f (minus_one x))) 0)
+    c (if 0 = 0 then 0 else c (f (minus_one 0)))
+    c (0)
+\end{verbatim}
 
 % \ldots
 
