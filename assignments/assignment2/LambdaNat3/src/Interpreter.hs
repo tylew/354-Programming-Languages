@@ -10,9 +10,11 @@ evalCBN :: Exp -> Exp
 evalCBN (EApp e1 e2) = case (evalCBN e1) of
     (EAbs i e3) -> evalCBN (subst i e2 e3)
     e3 -> EApp e3 e2
+----------------------------------------------------------------
+-- LambdaNat1:
 evalCBN ENat0 = ENat0 
 evalCBN (ENatS e) = ENatS (evalCBN e)
-----------------------------------------------------
+-- LambdaNat3: 
 evalCBN (EIf e0 e1 e2 e3) = if (evalCBN e0) == (evalCBN e1) then (evalCBN e2) else (evalCBN e3)
 evalCBN (ELet id e0 e1) = evalCBN( EApp (EAbs id e1) e0)
 evalCBN (EFix e) = evalCBN (EApp e (EFix e))
@@ -21,7 +23,6 @@ evalCBN (EMinusOne e0) = case (evalCBN e0) of
     (ENatS e0) -> (evalCBN e0)
     (ENatS ENat0) -> ENat0
     ENat0 -> ENat0
-
 ----------------------------------------------------
 evalCBN x = x -- this is a catch all clause, currently only for variables, must be the last clause of the eval function
 
@@ -45,12 +46,13 @@ subst id s (EAbs id1 e1) =
         e2 = subst id1 (EVar f) e1 in 
         EAbs f (subst id s e2)
 ----------------------------------------------------------------
---- YOUR CODE goes here if subst needs to be extended as well
-----------------------------------------------------------------
+-- LambdaNat0:
 subst id s ENat0 = ENat0 
 subst id s (ENatS e) = ENatS (subst id s e)
+-- LambdaNat1:
 subst id s (EIf e1 e2 e3 e4) = EIf (subst id s e1) (subst id s e2) (subst id s e3) (subst id s e4)
 subst id s (ELet f e1 e2) = subst id s (EApp (EAbs f e1) e2)
 subst id s (EFix e0) = EFix (subst id s e0)
 subst id s (ERec x e1 e2) = subst id s (EApp (EAbs x e2) (EFix (EAbs x e1)))
-subst id s (minus_one e0) = minus_one (subst id s e0)
+subst id s (EMinusOne e0) = EMinusOne (subst id s e0)
+----------------------------------------------------------------
