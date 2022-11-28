@@ -576,6 +576,24 @@ A domain specific programming language (DSL) for financial contracts.
 \\\\
 What if the logic of our justice system was so fine-tuned it could be described in a DSL with precise inputs producing clear outputs? Before that though, we must of course consider legal contracts. Such DSL contracting languages have been proposed and developed mainly in the last 10 years, but none have achieved a legally recognized status. Despite this, trustworthy contracts are still being deployed, and functioning properly without the enforcement of a legal entity. I think my question is: is it possible to create a replacement enforcement entity through DSL's? and to what extent? Can laws of everyday life be determined by smart contracts?
 
+
+\subsection{Week 12}
+Apply the method of analysis from the lecture to
+\begin{verbatim}
+    while (x!=0) do z:=z*y;  x:= x-1 done
+\end{verbatim}
+
+What is the invariant? Indicate the reasoning steps in which you apply the rules of Hoare logic.
+\\\\
+Assuming z is initialized 1, an invariant of $z=y^{n-x}$ is observed. Such equation is a loop invariant and will return the value of z for each step in the looping function. 
+\\\\
+I derived this mathematical description by constructing a table of execution assuming $z = 1, x = n, y = m$ with arbitrary values for n and m. Additionally a variable T associated with the amount of executed loops in the sequence.
+\\\\
+On each loop, x iterates down by 1, while T counts up by 1, thus $T = n - x$. The value of z indicates a function describing y to the power of n - x (x, who's value is iterating down). 
+
+
+
+
 % \ldots
 
 \section{Project}
