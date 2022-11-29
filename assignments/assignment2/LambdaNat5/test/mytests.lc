@@ -55,9 +55,10 @@ let rec even = \l.
             in func 0
 in 
 even 3:# 
+*/
 
 ;; 
-*/
+
 
 let rec weave = \x.\y. 
     if x = # 
@@ -76,4 +77,4 @@ let reverse = \z.
     in func z)
     :# 
 in 
-reverse 1:2:7:20:#
+reverse 1:2:7:20:# 
