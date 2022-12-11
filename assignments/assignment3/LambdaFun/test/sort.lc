@@ -45,3 +45,20 @@ rec print = \list.
         "NULL" -> [],
         _ -> (hd list):(print (tl list))
     } ;;
+
+-- `print (insert 5 (insert 4 (insert 3 (insert 2 (insert 1 nil))))) ;;` outputs [1, 2, 3, 4, 5]
+rec insert = \n. \list.
+    case !list of {
+        "NULL" -> cons n nil,
+        [e, a'] -> case (n < e) of {
+            true -> cons n list,
+            false -> cons e (insert n a')
+        }
+    }
+    
+-- `print (sort (cons 6 (cons 4 (cons 2 nil)))) ;;` outputs [2,4,6]
+rec sort = \list.
+    case !list of {
+        "NULL" -> nil,
+        le. a'l -> insert e (sort a')
+    } ;;
