@@ -602,20 +602,103 @@ Smart Contract Programming Semantics
 
 \subsection{Specification}
 
-For my project I will compare different Smart Contract languages. The languages I have identified are Solidity (Ethereum VM), and Move (Sui VM).
-\\\\
-I will implement an identical project in both languages to explore and showcase key features and differences in either systems. 
-\\\\
-My project will be an auction house smart contract in which a seller will lock an NFT object within the contract, and users will bid under some criteria. The contract should act as an escrow service.
-\\\\
-Planned milestones are as follows:
-\begin{itemize}
-    \item Research and identify key differences between smart-contracting languages. Brainstorm project idea which incorporates notable differences.
-    \item Build project in both languages and 
-    \item Compile report on findings
-\end{itemize}
+% For my project I will detail the smart contract programming language, Solidity
+% \\\\
+% I will implement an identical project in both languages to explore and showcase key features and differences in either systems. 
+% \\\\
+% My project will be an auction house smart contract in which a seller will lock an NFT object within the contract, and users will bid under some criteria. The contract should act as an escrow service.
+% \\\\
+% Planned milestones are as follows:
+% \begin{itemize}
+%     \item Research and identify key differences between smart-contracting languages. Brainstorm project idea which incorporates notable differences.
+%     \item Build project in both languages and 
+%     \item Compile report on findings
+% \end{itemize}
     
 % \href{https://www.stephendiehl.com/llvm/}{Possible launch point}
+
+{\bf Solidity} is a programming language used for writing smart contracts on blockchain platforms. It is designed to be backwards-compatible with the Ethereum Virtual Machine (EVM), which is the runtime environment for smart contracts on the Ethereum blockchain.
+
+\medskip\noindent
+{\bf Blockchain} is a distributed ledger technology that enables a network of computers to maintain a shared, immutable record of transactions. Each transaction is recorded in a block, which is cryptographically linked to the previous block in the chain. This creates a permanent and tamper-evident record of all transactions on the network.
+
+\medskip\noindent
+{\bf Blockchain programming} involves developing applications that run on blockchain platforms and make use of their unique features, such as decentralization and immutability. These applications are often called dapps (decentralized applications) and can include a wide range of use cases, from financial services to supply chain management.
+
+\medskip\noindent
+{\bf Solidity Basics}
+
+\medskip\noindent
+Solidity is a statically-typed, object-oriented programming language. It is influenced by C++, Python, and JavaScript, and is designed to be familiar to developers with experience in those languages.
+
+\medskip\noindent
+Solidity programs are called smart contracts, which are self-executing pieces of code that run on the EVM. Smart contracts can interact with the blockchain and with other smart contracts, allowing them to store and transfer data and assets on the network.
+
+\medskip\noindent
+Solidity has several important features that make it well-suited for blockchain programming. These include:
+
+\medskip\noindent
+\begin{itemize}
+\item Support for defining complex data structures, such as arrays and structs
+\item Support for inheritance and polymorphism, allowing for the creation of complex, \item modular code
+\item Support for defining and implementing custom functions and logic
+\item Built-in support for common blockchain operations, such as storing and transferring assets
+\end{itemize}
+
+Solidity also has a number of safety and security features that are important for blockchain programming. These include:
+
+\begin{itemize}
+    \item Static type checking, which ensures that variables and function arguments are used correctly
+\item Support for defining and enforcing contract access controls, which can be used to
+limit the actions that other contracts and users can perform on a contract
+\item Support for defining and enforcing contract permissions, which can be used to limit the actions that a contract can perform on other contracts and assets
+Writing Solidity Smart Contracts
+\item Double spending issue eliminated
+
+\end{itemize}
+
+\medskip\noindent
+Writing a Solidity smart contract involves defining the contract's data structures, functions, and logic, and then deploying the contract to the EVM.
+
+\medskip\noindent
+To define a smart contract in Solidity, a developer must first create a new file with a .sol extension. This file can then be used to define the contract's data structures and functions.
+
+\medskip\noindent
+For example, the following code defines a simple smart contract called AuctionTracker that tracks a highest bidder in an auction and enforces a minimum increment:
+
+\begin{lstlisting}
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.8;
+
+contract AuctionTracker {
+
+    uint16 public bidincrement;
+    address public owner;
+    
+    address public highestbidder;
+    uint256 public highestbid;
+    
+    constructor(uint16 _bidincrement){
+        owner = msg.sender;
+        highestbid = 0;
+        bidincrement = _bidincrement;
+    }
+
+    function bid(uint256 _value) public {
+        require(_value >= highestbid + bidincrement, "bid minumum not met");
+        highestbidder = msg.sender;
+        highestbid = _value;
+    }
+}
+\end{lstlisting}
+
+\begin{itemize}
+    \item License identifier at top of .sol file
+    \item Solidity version identifier
+    \item Contract declared with capital identifier
+    \item State variables declared before any functions
+    \item Constructor, only for most parent contract when using contract (class) inheritance
+\end{itemize}
 
 \subsection{Prototype}
 \subsection{Documentation}
