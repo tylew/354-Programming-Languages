@@ -54,11 +54,11 @@ rec insert = \n. \list.
             true -> cons n list,
             false -> cons e (insert n a')
         }
-    }
+    };;
     
 -- `print (sort (cons 6 (cons 4 (cons 2 nil)))) ;;` outputs [2,4,6]
 rec sort = \list.
     case !list of {
         "NULL" -> nil,
-        le. a'l -> insert e (sort a')
+        [e, a']-> insert e (sort a')
     } ;;
