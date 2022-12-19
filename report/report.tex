@@ -149,10 +149,10 @@ This process is designed to ensure that changes to the Ethereum platform are tra
 \paragraph{Solidity is a programming language for writing smart contracts}Solidity has several important features that make it well-suited for blockchain and smart-contract programming. \\These include:
 
 \begin{itemize}
-\item \ref{complex data} Support for defining complex data structures, such as arrays, enums, and structs
-\item \ref{simple contract} Support for defining and implementing custom functions and logic
-\item \ref{poly-inheritance} Support for inheritance and polymorphism, allowing for the creation of complex, modular code
-\item \ref{erc} Built-in support for common blockchain operations, such as storing and transferring assets
+\item Support for defining complex data structures, such as arrays, enums, and structs \ref{complex data}
+\item Support for defining and implementing custom functions and logic \ref{simple contract}
+\item Support for inheritance and polymorphism, allowing for the creation of complex, modular code \ref{poly-inheritance}
+\item Built-in support for common blockchain operations, such as storing and transferring assets \ref{erc}
 \end{itemize}
 
 \subsubsection{Basic Solidity rules and features}\label{core aspects}
@@ -210,8 +210,8 @@ contract AuctionTracker {
 There are several types of variables that can be used to store different types of data. \\These include:
 \begin{itemize}
     \item \textbf{bool}: a type that represents a boolean value, either true or false
-    \item \textbf{int}: a signed integer type that can store values from -2\textsuperscript{256} to 2\textsuperscript{256-1}
-    \item \textbf{uint}: an unsigned integer type that can store values from 0 to 2\textsuperscript{256-1}
+    \item \textbf{int}: a signed integer type that can store values from -(2\textsuperscript{256}) to 2\textsuperscript{256-1}
+    \item \textbf{uint}: an unsigned integer type that can store values from 0 to 2\textsuperscript{256}
     \item \textbf{address}: a type that represents an Ethereum address, which is a 20-byte value
     \item \textbf{bytes}: a dynamic-sized byte array
     \item \textbf{string}: a dynamic-sized string of Unicode characters
@@ -454,32 +454,79 @@ Non-fungible tokens, or NFTs, are blockchain assets which are typically unique a
 Lets begin by observing the \href{https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/IERC721.sol}{OpenZeppelin ERC721 interface} found in the \cite{OZ} to see how assets handle being transferred. This contract will serve as a guide to learning how to support ERC721 features in a contract of our own.
 
 
-\subsubsection{setApproval() and isApproved()}
+\subsubsection{approve() and setApprovalForAll()} \label{approval}
+The functions \colorbox{Gainsboro!60!Lavender}{approve()} and \colorbox{Gainsboro!60!Lavender}{setApprovalForAll()} are important aspects of ERC721 and allow a token owner to delagate control of their tokens to another entity.
 
-
-\subsubsection{safeTransferFrom()} \label{safetransferfrom}
-According to the IERC721 interface from which we are observing \ref{analyzing}, an ERC721 token implements the following function \colorbox{Gainsboro!60!Lavender}{safeTransferFrom} to perform transfer of ownership of the token from the current owner to to a suitable Ethereum address:
+\medskip\noindent
+Lets take a look at these functions implementations in the \texttt{IERC721 interface} mentioned above \ref{analyzing}:
 
 \begin{itemize}
 \begin{lstlisting}
-    /**
-     * @dev Safely transfers `tokenId` token from `from` to `to`, checking first that contract recipients are aware of the ERC721 protocol to prevent tokens from being forever locked.
-     *
-     * Requirements:
-     *
-     * - `from` cannot be the zero address.
-     * - `to` cannot be the zero address.
-     * - `tokenId` token must exist and be owned by `from`.
-     * - If the caller is not `from`, it must have been allowed to move this token by either {approve} or {setApprovalForAll}.
-     * - If `to` refers to a smart contract, it must implement {IERC721Receiver-onERC721Received}, which is called upon a safe transfer.
-     *
-     * Emits a {Transfer} event.
-     */
-    function safeTransferFrom( 
-        address from, 
-        address to, 
-        uint256 tokenId 
-    ) external;
+/**
+ * @dev Gives permission to `to` to transfer `tokenId` token to another account.
+ * The approval is cleared when the token is transferred.
+ *
+ * Only a single account can be approved at a time, so approving the zero address clears previous approvals.
+ *
+ * Requirements:
+ *
+ * - The caller must own the token or be an approved operator.
+ * - `tokenId` must exist.
+ *
+ * Emits an {Approval} event.
+ */
+function approve(address to, uint256 tokenId) external;
+
+/**
+ * @dev Approve or remove `operator` as an operator for the caller.
+ * Operators can call {transferFrom} or {safeTransferFrom} for any token owned by the caller.
+ *
+ * Requirements:
+ *
+ * - The `operator` cannot be the caller.
+ *
+ * Emits an {ApprovalForAll} event.
+ */
+function setApprovalForAll(address operator, bool _approved) external;
+\end{lstlisting}
+\end{itemize}
+
+\noindent
+Remember that this is an interface [\ref{interfaces}] and contains only the function declaration, rather than including implementation.
+
+\medskip\noindent
+The \colorbox{Gainsboro!60!Lavender}{approve()} function allows an owner of an ERC721 token to give another address (called the "approved address") the ability to transfer the token on behalf of the owner. This is similar to the approve function in the ERC20 token standard, which allows an owner to give another address the ability to transfer ERC20 tokens on behalf of the owner.
+
+\medskip\noindent
+The \colorbox{Gainsboro!60!Lavender}{setApprovalForAll()} function allows an owner of an ERC721 token to set or unset an approval flag for all of their tokens for a given asset type, or simply NFT assets of the same contract. When the flag is set to true, it means that the owner has given the approved address the ability to transfer all of their ERC721 tokens on their behalf. When the flag is set to false, it means that the approved address no longer has the ability to transfer the tokens on behalf of the owner.
+
+
+\medskip\noindent
+Both the \texttt{approve} and \texttt{setApprovalForAll} functions can be useful in situations where an owner wants to delegate the ability to transfer their ERC721 tokens to another address, such as a marketplace or a smart contract. However, it's important to note that these functions should be used with caution, as they allow another address to transfer the tokens on behalf of the owner, which can potentially result in the loss of control over the tokens.
+
+\subsubsection{safeTransferFrom()} \label{safetransferfrom}
+According to the \texttt{IERC721 interface} from which we are currently observing \ref{analyzing}, an ERC721 token implements the following function \colorbox{Gainsboro!60!Lavender}{safeTransferFrom()} to perform transfer of ownership of the token from the current owner to to a suitable Ethereum address:
+
+\begin{itemize}
+\begin{lstlisting}
+/**
+ * @dev Safely transfers `tokenId` token from `from` to `to`, checking first that contract recipients are aware of the ERC721 protocol to prevent tokens from being forever locked.
+ *
+ * Requirements:
+ *
+ * - `from` cannot be the zero address.
+ * - `to` cannot be the zero address.
+ * - `tokenId` token must exist and be owned by `from`.
+ * - If the caller is not `from`, it must have been allowed to move this token by either {approve} or {setApprovalForAll}.
+ * - If `to` refers to a smart contract, it must implement {IERC721Receiver-onERC721Received}, which is called upon a safe transfer.
+ *
+ * Emits a {Transfer} event.
+ */
+function safeTransferFrom( 
+    address from, 
+    address to, 
+    uint256 tokenId 
+) external;
 \end{lstlisting}
 \end{itemize}
 
@@ -501,9 +548,6 @@ The following contract, \texttt{ERC721Holder}, contains an implementation of the
 pragma solidity ^0.8.8;
 
 contract ERC721Holder {
-    address public nftAddress;
-    uint256 public tokenID;
-
     /** Always returns `IERC721Receiver.onERC721Received.selector`. */
     function onERC721Received( 
         address operator, 
@@ -566,7 +610,18 @@ contract ERC721Holder {
         _;
     }
     
-    /** ...... */
+    /** ...contract functions... */
+
+    /** Always returns `IERC721Receiver.onERC721Received.selector`. */
+    function onERC721Received( 
+        address operator, 
+        address from, 
+        uint256 tokenId, 
+        bytes calldata data 
+    ) pure public override returns (bytes4) 
+    {
+        return this.onERC721Received.selector;
+    }
 }
 \end{lstlisting}
 \end{itemize}
@@ -580,7 +635,7 @@ Take a moment to examine what we have just added to the contract
     \item \colorbox{Gainsboro!60!Lavender}{address public nftAddress} will be used to store the address of an ERC721 token contract.
     \item  \colorbox{Gainsboro!60!Lavender}{uint256 public tokenID} stores the unique ID of an ERC721 token.
 \end{itemize}
-\textbf{2. Modifier functions to check if the contract contains a token or not:}
+\textbf{2. Modifier functions [\ref{modifier}] to check if the contract contains a token or not:}
 \begin{itemize}
     \item \colorbox{Gainsboro!60!Lavender}{hasToken()} ensures that a token is present in the contract before a function is executed.
     \item \colorbox{Gainsboro!60!Lavender}{noToken()} ensures that no token is present in the contract before a function is executed.
@@ -598,9 +653,45 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 contract ERC721Holder {
 
-    /** ...... */
+    /** ...variables, modifiers, onERC721Received()... */
     
-    c
+    /** noToken, public, virtual function: overload in child to add further functionality */
+    function depositAsset(
+        address _NFTAddress, 
+        uint256 _TokenID
+    ) noToken public virtual
+    {
+        require( // check token approval for contract address
+            ERC721(_NFTAddress).isApprovedForAll(msg.sender, address(this)), 
+            "NFT is not approved for transfer"
+        ); 
+        /** Create temp ERC721 instance to perform a function on the token */
+        ERC721(_NFTAddress).safeTransferFrom(msg.sender, address(this), _TokenID);
+        /** Transfer successful if got to this point, save data */
+        nftAddress = _NFTAddress;
+        tokenID = _TokenID;
+    }
+    
+    /** hasToken, internal: only visible to functions within the contract system.
+     * Performs no owner-check control. Must be done in child. */
+    function withdrawAsset(
+        address _receiver
+    ) hasToken internal
+    {
+        ERC721(nftAddress).safeTransferFrom(address(this), _receiver, tokenID);
+        nftAddress = address(0); // clear nft data by returning to zero address
+        tokenID = 0;
+    }
+    
+    /** hasToken, public, view: This function costs zero to execute, as it does not change 
+     * the contract state, simply returns a string from the blockchain */
+    function getTokenURI() 
+    hasToken public view 
+    returns (string memory)
+    {
+        string memory _return = ERC721(nftAddress).tokenURI(tokenID);
+        return _return;
+    }
 }
 \end{lstlisting}
 \end{itemize}
@@ -753,7 +844,7 @@ contract NFTListing is ERC721Holder {
 \colorbox{Gainsboro!60!Lavender}{NFTListing} is a Solidity contract that is a subclass of the \colorbox{Gainsboro!60!Lavender}{ERC721Holder} contract, which means it inherits all the properties and functions of the \texttt{ERC721Holder} contract.
 
 \medskip\noindent
-In addition to the inherited properties and functions, \texttt{NFTListing} has its own set of variables and functions. It has an \texttt{enum} \ref{complex data} called \texttt{ProjectState} with three possible values: \texttt{emptyVault}, \texttt{fullVault}, and \texttt{onSale}. This is an approach we have not used previously in the report, but is helpful in using an enum to track the state of the contract, whether it is empty, full, or on sale.
+In addition to the inherited properties and functions, \texttt{NFTListing} has its own set of variables and functions. It has an \texttt{enum} \ref{complex data} called \texttt{ProjectState} with three possible values: \texttt{emptyVault}, \texttt{fullVault}, and \texttt{onSale}. This is an approach we have not used previously in the report, but using an enum is helpful to track the state of the contract, whether it is empty, full, or on sale.
 
 \medskip\noindent
 It also has a public address variable called \texttt{owner} that stores the owner's address, a public address variable called \texttt{buyer} that stores the address of the current buyer (if any), and a public uint256 variable called \texttt{price} that stores the listing price of the NFT being sold.
@@ -812,10 +903,10 @@ contract BasicNFT is ERC721URIStorage {
 Explore the left menu bar within the Remix IDE. This is a command center for executing contracts and commands on a spoof blockchain. 
 
 \medskip\noindent
-In the "File Explorer" panel, click the "+" button to create a new file. In the new file, write or paste our Solidity contract code. 
+In the \texttt{File Explorer} panel, click the \texttt{+} button to create a new file. In the new file, write or paste our Solidity contract code. 
 
 \medskip\noindent
-Compile and deploy both contracts using the respective IDE left menu bar panels. The IDE is very self explanitory and I urge you to try and test the functionality of our application. Note: ERC721 tokens must be approved for transfer, meaning the contract address of \texttt{NFTListing} should be explicitly approved within the individual NFT contract.
+Compile and deploy both contracts using the respective IDE left menu bar panels. The IDE is very self explanatory and I urge you to try and test the functionality of our application. Note: ERC721 tokens must be approved for transfer, meaning the contract address of \texttt{NFTListing} should be explicitly approved within the individual NFT contract prior to an attempt to interact with the listing contract, see Section \ref{approval}.
 
 \medskip\noindent
 
@@ -1338,7 +1429,7 @@ What is the invariant? Indicate the reasoning steps in which you apply the rules
 \\\\
 Assuming z is initialized 1, an invariant of $z=y^{n-x}$ is observed. Such equation is a loop invariant and will return the value of z for each step in the looping function. 
 \\\\
-I derived this mathematical description by constructing a table of execution assuming $z = 1, x = n, y = m$ with arbitrary values for n and m. Additionally a variable T associated with the amount of executed loops in the sequence.
+I derived this mathematical description by constructing a table of execution and assumed $z = 1, x = n, y = m$ with arbitrary values for n and m. Additionally a variable T associated with the amount of executed loops in the sequence.
 \\\\
 On each loop, x iterates down by 1, while T counts up by 1, thus $T = n - x$. The value of z indicates a function describing y to the power of n - x (x, who's value is iterating down). 
 
@@ -1347,8 +1438,11 @@ On each loop, x iterates down by 1, while T counts up by 1, thus $T = n - x$. Th
 
 % \ldots
 
-\section{bibliography}\label{conclusions}
+\section{Conclusions}\label{conclusions}
 
+% (approx 400 words)
+
+Thanks, goodbye.
 
 \begin{thebibliography}{99}
 \bibitem[PL]{PL} \href{https://github.com/alexhkurz/programming-languages-2022/blob/main/README.md}{Programming Languages 2022}, Chapman University, 2022.
