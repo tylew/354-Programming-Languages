@@ -20,6 +20,17 @@ contract ERC721Holder {
         _;
     }
     
+    /** Always returns `IERC721Receiver.onERC721Received.selector`. */
+    function onERC721Received( 
+        address operator, 
+        address from, 
+        uint256 tokenId, 
+        bytes calldata data 
+    ) pure public override returns (bytes4) 
+    {
+        return this.onERC721Received.selector;
+    }
+    
     /** noToken, public, virtual function: overload in child to add further functionality */
     function depositAsset(
         address _NFTAddress, 
