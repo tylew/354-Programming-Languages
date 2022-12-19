@@ -6,7 +6,9 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{fullpage}
+\usepackage[svgnames]{xcolor}
 \usepackage[usenames]{color}
+
 \usepackage{hyperref}
   \hypersetup{
     colorlinks = true,
@@ -62,15 +64,764 @@
 \maketitle
 
 \begin{abstract}
-Updated throughout Fall 2022 for 354 Programming Languages at Chapman Univ.
+
+\textbf{Section 1: Project} This report details a research project and homework assignments per Chapman Univ. CPSC 354: Programming Languages. Within this section of the document is a detail on the Solidity programming language within the Ethereum Virtual Machine (EVM): including Solidity's programming semantics, security considerations, and includes learn-by-example exercises, with a subsequent programming project exploring the contracting of assets within a Solidity blockchain ecosystem. 
+
+\textbf{Section 2: Homework} is of varying topics.
 \end{abstract}
 
 \tableofcontents
 
-\section{Introduction}\label{intro}
+\section{Project}
 
-Tylers introduction. Yeah, this will get some work before final submission. 
+\subsection{Introduction}
+\subsubsection{Abstract}
 
+\paragraph{} In recent years, the use of blockchain technology has gained significant momentum in a variety of industries. One of the key features of blockchain technology is the ability to use smart contracts to create and manage digital assets and tokens. Solidity is a popular programming language used for developing smart contracts on the Ethereum blockchain. This research project aims to explore how assets and tokens are handled within the Solidity language and evaluate its capabilities and limitations in managing digital assets and tokens.
+
+\paragraph{} In addition to exploring the handling of assets and tokens in Solidity, this research project will also provide an introduction to the fundamentals of  Solidity and blockchain programming. This will include an overview of the key concepts and principles of Solidity, as well as a discussion of the unique challenges and opportunities that come with programming on the blockchain. Through this report, readers will gain a solid foundation in Solidity and blockchain programming, and be enabled to better understand and evaluate the handling of assets and tokens within the Ethereum Virtual Machine.
+
+
+\subsubsection{Foundational knowledge}
+
+% For my project I will detail the smart contract programming language, Solidity
+% \\\\
+% I will implement an identical project in both languages to explore and showcase key features and differences in either systems. 
+% \\\\
+% My project will be an auction house smart contract in which a seller will lock an NFT object within the contract, and users will bid under some criteria. The contract should act as an escrow service.
+% \\\\
+% Planned milestones are as follows:
+% \begin{itemize}
+%     \item Research and identify key differences between smart-contracting languages. Brainstorm project idea which incorporates notable differences.
+%     \item Build project in both languages and 
+%     \item Compile report on findings
+% \end{itemize}
+    
+% \href{https://www.stephendiehl.com/llvm/}{Possible launch point}
+
+
+% \medskip\noindent
+\paragraph{Blockchain} is a distributed ledger technology that enables a network of computers to maintain a shared, immutable record of transactions. Each transaction is recorded in a block, which is cryptographically linked to the previous block in the chain. This creates a permanent and tamper-evident record of all transactions on the network.
+
+\paragraph{Blockchain programming} involves developing applications that run on blockchain platforms and make use of their unique features, such as decentralization and immutability. These applications are often called dapps (decentralized applications) and can include a wide range of use cases, from financial services and supply chain management to internet fad economys and enabling pseudo-anonymous transactions.
+
+\paragraph{Solidity} is a programming language used for writing smart contracts on blockchain platforms. It is designed to be backwards-compatible with the Ethereum Virtual Machine (EVM). Solidity is a statically-typed, object-oriented programming language. It is influenced by C++, Python, and JavaScript, and is designed to be familiar to developers with experience in those languages. 
+
+\paragraph{Smart Contracts} \textbf{are what Solidity programs are called}, \textit{similar to a class in Java}, and serve as self-executing pieces of code that run on the EVM. Smart contracts can interact with the blockchain and with other smart contracts, allowing them to store and transfer data and assets on the network.
+
+\paragraph{Ethereum Virtual Machine (EVM)}
+The runtime environment for smart contracts on the Ethereum blockchain.
+
+\subsubsection{Safety and Security}
+Solidity also has a number of safety and security features that are important for blockchain programming.
+
+\paragraph{Type System}
+
+One of Solidity's key security features is its strict type system. In Solidity, variables and function arguments must be explicitly declared with their type, and the type of a variable cannot be changed once it has been declared. This helps prevent type-related vulnerabilities, such as type confusion attacks, in which a malicious actor is able to manipulate the type of a variable and cause the contract to behave in unexpected ways.
+
+\paragraph{Access Control}
+
+Solidity also includes support for access control, which allows developers to specify which addresses are allowed to call which functions in a contract. This can be used to restrict the actions that can be performed on a contract, and to prevent unauthorized access to sensitive data or functions. Access control is implemented using \colorbox{Gainsboro!60!Lavender}{modifiers} \ref{modifier}, which can be used to define a set of conditions that must be met in order for a function to be executed. For example, a \texttt{modifier} might be used to specify that only the contract owner is allowed to call a particular function.
+
+\subsubsection{Ethereum  development } \label{development}
+
+Open source development for Ethereum happens through a decentralized process that involves a wide range of participants, including developers and users in the Ethereum community. 
+
+\medskip\noindent
+Any member of the community can propose a change or improvement to the Ethereum platform through an \colorbox{Gainsboro!60!Lavender}{Ethereum Improvement Proposal} \cite{eip}. Such improvements include application contract standards and conventions such as for tokens \ref{erc}, interface standards \ref{interfaces}, and additionally for core Ethereum functionality.
+
+\begin{enumerate}
+    \item The EIP is then reviewed by the community, which will provide feedback and suggestions for improvement.
+    \item If accepted by the community, it is assigned an EIP number and becomes an official EIP.
+    \item The EIP is then implemented in the Ethereum codebase and tested to ensure it works as intended.
+    \item If the EIP is successfully implemented and tested, it can be adopted as an \texttt{Ethereum Request for Comment} (ERC) and become a part of the Ethereum protocol.
+\end{enumerate}
+
+\medskip\noindent
+This process is designed to ensure that changes to the Ethereum platform are transparent, decentralized, and subject to review by the community. It allows for a wide range of perspectives to be considered and for the Ethereum platform to evolve and improve over time. 
+
+\medskip\noindent
+\textit{EIP20 and EIP721 are discussed in detail in section} \ref{erc}
+
+
+\subsection{How to speak Solidity}
+
+\paragraph{Solidity is a programming language for writing smart contracts}Solidity has several important features that make it well-suited for blockchain and smart-contract programming. \\These include:
+
+\begin{itemize}
+\item \ref{complex data} Support for defining complex data structures, such as arrays, enums, and structs
+\item \ref{simple contract} Support for defining and implementing custom functions and logic
+\item \ref{poly-inheritance} Support for inheritance and polymorphism, allowing for the creation of complex, modular code
+\item \ref{erc} Built-in support for common blockchain operations, such as storing and transferring assets
+\end{itemize}
+
+\subsubsection{Basic Solidity rules and features}\label{core aspects}
+
+\begin{itemize}
+    \item {\bf License identifier} at top of .sol file
+    \item {\bf Solidity} version identifier
+    \item {\bf Contract} declared with name
+    \item {\bf State variables} declared top of contract
+    \item {\bf Constructor}, with parameters, and only required for most child contract \ref{inheritance}
+    \item {\bf Functions}, with parameters
+    \item {\bf Require statements}, no execution unless statement evaluates to true 
+    \item {\bf msg} global variable is a struct containing information regarding a contract interaction 
+\end{itemize}
+
+\subsubsection{Writing a simple smart contract} \label{simple contract}
+\medskip\noindent
+Writing a Solidity smart contract involves defining the contract's data structures, functions, and logic, and then deploying the contract to the EVM.
+
+\medskip\noindent
+To define a smart contract in Solidity, a developer must first create a new file with a .sol extension. This file can then be used to define the contract's data structures and functions.
+
+\medskip\noindent
+Before we discuss basics, we will explore a simple smart contract called AuctionTracker that tracks a highest bidder in an auction and requires a minimum increment. The contract uses each of the aspects listed in section \ref{core aspects}, try to identify them all in the code:
+\begin{itemize}
+\begin{lstlisting}
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.8;
+
+contract AuctionTracker {
+
+    uint16 public bidincrement;
+    address public owner;
+    
+    address public highestbidder;
+    uint256 public highestbid;
+    
+    constructor(uint16 _bidincrement){
+        owner = msg.sender;
+        highestbid = 0;
+        bidincrement = _bidincrement;
+    }
+
+    function bid(uint256 _value) public {
+        require(_value >= highestbid + bidincrement, "bid minumum not met");
+        highestbidder = msg.sender;
+        highestbid = _value;
+    }
+}
+\end{lstlisting}
+\end{itemize}
+
+\subsubsection{Data types} \label{data}
+\medskip\noindent
+There are several types of variables that can be used to store different types of data. \\These include:
+\begin{itemize}
+    \item \textbf{bool}: a type that represents a boolean value, either true or false
+    \item \textbf{int}: a signed integer type that can store values from -2\textsuperscript{256} to 2\textsuperscript{256-1}
+    \item \textbf{uint}: an unsigned integer type that can store values from 0 to 2\textsuperscript{256-1}
+    \item \textbf{address}: a type that represents an Ethereum address, which is a 20-byte value
+    \item \textbf{bytes}: a dynamic-sized byte array
+    \item \textbf{string}: a dynamic-sized string of Unicode characters
+
+
+\end{itemize}
+
+\paragraph{Arrays, structs, and special types:} \label{complex data}
+\begin{itemize}
+    \item \textbf{array}: a type that represents an ordered sequence of elements
+    \item \textbf{struct}: a type that represents a composite data structure, consisting of a collection of named members
+    \item \textbf{mapping}: a type that represents a collection of key-value pairs, where the keys are unique and the values can be any type
+    \item \textbf{enum}: a type that represents a set of named values. Refer to \ref{buildingchild} for usage in contract 
+\end{itemize}
+
+\paragraph{More types}These are just some of the types available in Solidity, variable type int and uint, for instance, are defaulted to 256-bits, but can me adjusted for specific bit-sizes. For a complete list and more detailed information about the different types, you can refer to the \cite{SD}.
+
+
+
+\subsubsection{Global variables} \label{global-variables}
+
+\colorbox{Gainsboro!60!Lavender}{msg}, \colorbox{Gainsboro!60!Lavender}{this}, and \colorbox{Gainsboro!60!Lavender}{block} are all examples of global object variables in Solidity that are available to all functions within a contract.
+\begin{itemize}
+    \item \colorbox{Gainsboro!60!Lavender}{msg} represents the current message being processed. It contains information about the sender of the message, the function that is being called, and any arguments passed to the function.
+    \item \colorbox{Gainsboro!60!Lavender}{this} represents the current contract instance. It can be used to access the contract's functions and variables from within the contract.
+    \item \colorbox{Gainsboro!60!Lavender}{block} represents the current block being processed. It contains information about the block's number, timestamp, and other properties. 
+\end{itemize}
+
+\medskip\noindent
+It's important to note that these global variables are read-only and cannot be modified. They are intended to provide information about the current context. Usage of global variables can be easily inferred through usage in further examples in this report or looking at the \href{https://docs.soliditylang.org/en/v0.8.17/units-and-global-variables.html?highlight=msg#block-and-transaction-properties}{global variable properties documentation}.
+
+\subsubsection{Modifiers} \label{modifier}
+Solidity provides several built-in modifiers that you can use to alter the behavior of functions and variables in your contract. Here is a list of some of the most commonly used built-in modifiers in Solidity:
+\begin{itemize}
+    
+    \item \textbf{public}: makes a function or variable accessible to any contract or external caller.
+    \item \textbf{private}: makes a function or variable only accessible to functions within the same contract, and not accessible to external callers or other contracts.
+    \item \textbf{internal}: makes a function or variable only accessible to other functions within the same contract.
+    \item \textbf{view}: indicates that a function only reads data from the blockchain and does not modify it. This allows the function to be called without the need to create a transaction.
+    \item \textbf{pure}: indicates that a function does not read or modify the state of the contract or the blockchain, and does not have any side effects.
+    \item \textbf{payable}: indicates that a function can receive Ether (the native cryptocurrency of the Ethereum blockchain) as an input.
+    \item \textbf{memory}: indicates that a function or variable should be stored in memory, rather than in storage.
+    \item \textbf{storage}: indicates that a function or variable should be stored in storage, rather than in memory.
+    \item \textbf{virtual}: indicates that a function can be overridden by a derived contract
+\end{itemize}
+You can use these built-in modifiers in combination with function and variable definitions to control their behavior. For example, you might define a function as \colorbox{Gainsboro!60!Lavender}{public payable} to make it both accessible to external callers and able to receive Ether as an input.
+
+\paragraph{Custom modifiers}
+To create a custom modifier in Solidity, you can use the modifier keyword followed by the name of the modifier and a block of code that defines its behavior. The modifier implementation must end with \colorbox{Gainsboro!60!Lavender}{\texttt{\char`_;}}
+
+\medskip\noindent
+Here's an example of a custom modifier that checks if the caller of a function is contained in \texttt{address owner}:
+
+\begin{itemize}
+\begin{lstlisting}
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.8;
+
+contract Example {
+
+    public address owner;
+    public uint price;
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only the owner can perform this action");
+        _;
+    }
+    
+    function changePrice(uint _price) onlyOwner {
+        price = _price;
+    }
+}
+\end{lstlisting}
+\end{itemize}
+
+\medskip\noindent
+The function \texttt{changePrice()} is only accessible when the modifier \texttt{onlyOwner()} is satisfied. Modifier can also accept arguments.
+
+
+\subsection{Inheritance and Polymorphism} \label{poly-inheritance}
+
+\subsubsection{Inheritance} \label{inheritance}
+Inheritance is a mechanism that allows a contract (called the \texttt{ChildContract}) to inherit the state and behavior of another contract (called the \texttt{ParentContract}). This means that the child contract automatically has all the state variables and functions defined in the parent contract, and it can also define its own state variables and functions.
+
+\medskip\noindent
+Inheritance is useful because it allows contracts to share common code, which can make the code easier to understand and maintain. It also allows contracts to be easily extended or modified by creating a new contract that inherits from an existing contract and adding new functionality to it.
+
+\medskip\noindent
+To create a contract that inherits from another contract in Solidity, the \colorbox{Gainsboro!60!Lavender}{is} keyword is used followed by the name of the parent contract. For example:
+\medskip\noindent
+
+\begin{itemize}
+\begin{lstlisting}
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.8;
+
+// Define modular contract functions and variables 
+contract ParentContract {    /*...state variables, functions     */ }
+
+// Inherits ParentContract functions and variables
+contract ChildContract is ParentContract {    /*...state variables, constructor, functions      */ }
+\end{lstlisting}
+
+\end{itemize}
+
+\medskip\noindent
+In this example, the \texttt{ChildContract} contract inherits all of the properties and functionality of the \texttt{ParentContract} contract. This means that the \texttt{ChildContract} contract can access any public or internal functions and state variables defined in \texttt{ParentContract}.
+
+\medskip\noindent
+Additionally, the \texttt{ChildContract} contract can override any functions from the \texttt{ParentContract} contract by defining a function with the same name and signature. This allows the \texttt{ChildContract} contract to customize the behavior of inherited functions.
+
+\medskip\noindent
+Inheritance is a powerful feature of Solidity that allows developers to create flexible, modular contracts. It is an important concept to understand when working with Solidity and blockchain development.
+
+
+\subsubsection{Polymorphism} \label{poly}
+
+Polymorphism in Solidity refers to the ability of a contract or function to behave differently based on the type or number of arguments passed to it. This can be achieved through the use of function overloading, in which multiple functions with the same name can be defined, but with different amounts or types of arguments. 
+
+\medskip\noindent
+Consider the following:
+\begin{itemize}
+\begin{lstlisting}
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.8;
+
+contract PolymorphismExample {
+  function multiply(uint x, uint y) public pure returns (uint) {
+    return x * y;
+  }
+
+  function multiply(uint x, uint y, uint z) public pure returns (uint) {
+    return x * y * z;
+  }
+
+  function multiply(uint[] values) public pure returns (uint) {
+    uint result = 1;
+    for (uint i = 0; i < values.length; i++) {
+      result *= values[i];
+    }
+    return result;
+  }
+}
+
+\end{lstlisting}
+
+\end{itemize}
+
+\noindent
+When calling the multiply function, the executed function will be determined based on the number and type of arguments provided. For example, if we call \texttt{multiply(2, 3)}, the first version of the function will be executed and will return 6. If we call \texttt{multiply([2, 3, 4])}, the third version of the function will be executed and will return 24. This allows for greater flexibility and reusability of the multiply function.
+
+\medskip\noindent
+The actual function that is executed will be determined at runtime based on the arguments provided. Polymorphism allows for more flexible and reusable code, as the same function can be used in different ways depending on the context. However, it can also make the code more complex and difficult to read and understand.
+% \medskip\noindent
+
+
+\subsubsection{Interfaces} \label{interfaces}
+
+Polymorphism can also be achieved across multiple contracts through the inheritance of interfaces. An interface is a contract that defines a set of functions that other contracts can implement. This allows for polymorphic behavior, as multiple contracts can implement the same interface and provide their own unique implementations of the functions defined in the interface.
+
+
+\medskip\noindent
+Here is an example of how this might work:
+
+\begin{itemize}
+\begin{lstlisting}
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.8;
+
+// Define an interface that specifies a function signature
+interface Shape {
+  function getArea() public view returns (uint);
+}
+
+// Define a contract that implements the Shape interface
+// and provides its own implementation of the getArea function
+contract Circle is Shape {
+  uint radius;
+
+  function Circle(uint r) public {
+    radius = r;
+  }
+
+  function getArea() public view returns (uint) {
+    return radius ** 2 * 3.1415;
+  }
+}
+
+// Define another contract that also implements the Shape interface
+// and provides its own implementation of the getArea function
+contract Rectangle is Shape {
+  uint width;
+  uint height;
+
+  function Rectangle(uint w, uint h) public {
+    width = w;
+    height = h;
+  }
+
+  function getArea() public view returns (uint) {
+    return width * height;
+  }
+}
+
+\end{lstlisting}
+\end{itemize}
+\noindent
+\texttt{Circle} and \texttt{Rectangle} are both \texttt{Shape} extensions, with a varying implementation of function \texttt{getArea()}
+
+\medskip\noindent
+To examine production level interface contracts and more, take a look at the \cite{OZ} For OpenZeppelin contracts pertaining to subject in this report, navigate to the \colorbox{Gainsboro!60!Lavender}{/contracts/token/ERC721} directory within the repository. 
+
+\medskip\noindent
+Interfaces in OpenZepplin are identified by a file name with a prefix of \colorbox{Gainsboro!60!Lavender}{I}, as in: \colorbox{Gainsboro!60!Lavender}{I[interface-name].sol}
+
+ \medskip
+
+\subsection{Assets} \label{erc}
+\medskip
+Begin by understanding the concepts of EIP and ERC from Section \ref{development}
+
+\subsubsection{Fungible tokens } 
+Fungible tokens are blockchain assets which can be exchanged for another unit of the same token without any loss of value. An example of a fungible token is a digital currency, such as Bitcoin or Ethereum, where each individual token is worth the same amount and can be easily exchanged for another token of the same type. Similarly, a governance token for a DAO (Decentralized Organization) would likely be a fungible token where voting power is determined by quantity of tokens, rather than a particular token.
+
+\begin{itemize}
+\paragraph{ERC-20} is the most widely used token standard on the Ethereum network, and is a verified contract interface designed to facilitate a transferable and interchangeable token. 
+
+\end{itemize}
+
+\subsubsection{Non-fungible tokens}  
+Non-fungible tokens, or NFTs, are blockchain assets which are typically unique and differentiable from one and another. Each non-fungible token is distinct and cannot be replaced by another token. NFTs have gained popularity in the field of digital ownership. Currently, most digital non-fungible ownership is in regard to art and digital collectibles, but in the future may be recognized for a wider array of ownership such as property liens, vehicle titles, and other physical assets.
+\begin{itemize}
+
+\paragraph{ERC-721} is a token standard for creating non-fungible tokens on the Ethereum network. The standard specifies function names and variables that every ERC721 token contract  possesses. Above anything else, each token associates with an identifier, which inherently makes each token unique.
+
+\end{itemize}
+
+\subsection{Analyzing ERC721} \label{analyzing}
+\medskip\noindent
+Lets begin by observing the \href{https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/IERC721.sol}{OpenZeppelin ERC721 interface} found in the \cite{OZ} to see how assets handle being transferred. This contract will serve as a guide to learning how to support ERC721 features in a contract of our own.
+
+
+\subsubsection{setApproval() and isApproved()}
+
+
+\subsubsection{safeTransferFrom()} \label{safetransferfrom}
+According to the IERC721 interface from which we are observing \ref{analyzing}, an ERC721 token implements the following function \colorbox{Gainsboro!60!Lavender}{safeTransferFrom} to perform transfer of ownership of the token from the current owner to to a suitable Ethereum address:
+
+\begin{itemize}
+\begin{lstlisting}
+    /**
+     * @dev Safely transfers `tokenId` token from `from` to `to`, checking first that contract recipients are aware of the ERC721 protocol to prevent tokens from being forever locked.
+     *
+     * Requirements:
+     *
+     * - `from` cannot be the zero address.
+     * - `to` cannot be the zero address.
+     * - `tokenId` token must exist and be owned by `from`.
+     * - If the caller is not `from`, it must have been allowed to move this token by either {approve} or {setApprovalForAll}.
+     * - If `to` refers to a smart contract, it must implement {IERC721Receiver-onERC721Received}, which is called upon a safe transfer.
+     *
+     * Emits a {Transfer} event.
+     */
+    function safeTransferFrom( 
+        address from, 
+        address to, 
+        uint256 tokenId 
+    ) external;
+\end{lstlisting}
+\end{itemize}
+
+\medskip\noindent
+Remember that this is an interface [\ref{interfaces}] and contains only the function declaration, rather than including implementation. 
+
+\medskip\noindent
+The documentation in the snippet above indicates that the ERC721 function, \texttt{safeTransferFrom}, checks the ability of the receiving Ethereum address to accept ERC721 tokens before initiating a transfer by using \colorbox{Gainsboro!60!Lavender}{onERC721Recieved} \ref{onerc721received}. \textbf{This is the method which a receiving contract must implement to indicate it is able to receive ERC721 tokens}. The purpose of this is to prevent tokens from being sent to a recipient who is unable to interact with the tokens, which would cause the tokens becoming inaccessible or lost. The function always returns the \colorbox{Gainsboro!60!Lavender}{onERC721Received.selector} object which is checked by the NFT contract using a require and operator statement nested in the implementation of  \texttt{safeTransferFrom} making sure that the \texttt{onERC721Received()} method exists and returns the proper identifier.
+
+\subsubsection{onERC721Received()}\label{onerc721received}
+
+\medskip\noindent
+The following contract, \texttt{ERC721Holder}, contains an implementation of the \texttt{onERC721Received} function required by \colorbox{Gainsboro!60!Lavender}{safeTransferFrom()} \ref{safetransferfrom}. 
+
+\medskip\noindent
+\begin{itemize}
+\begin{lstlisting}
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.8;
+
+contract ERC721Holder {
+    address public nftAddress;
+    uint256 public tokenID;
+
+    /** Always returns `IERC721Receiver.onERC721Received.selector`. */
+    function onERC721Received( 
+        address operator, 
+        address from, 
+        uint256 tokenId, 
+        bytes calldata data 
+    ) pure public override returns (bytes4) 
+    {
+        return this.onERC721Received.selector;
+    }
+}
+\end{lstlisting}
+\end{itemize}
+
+\medskip\noindent
+A child contract will become able to receive NFTs by inherriting \texttt{ERC721Holder}. In the next section we will work on extending this contract.
+
+\subsection{Developing a decentralized application}
+
+% \subsubsection{Abstract}
+Lets explore what we have learned about assets transacted by EVM smart contracts with a relatively simple, but foundational smart-contract application.
+
+% \subsubsection{First steps}
+\medskip\noindent
+As with any software development, we begin by identifying the purpose of our application. For this example, and in order to exemplify particular details including solidity asset-management security and contract inheritance, we will build a ERC721 auction application, managed by the EVM. 
+
+\subsubsection{Project description}
+For the conclusion of this report, we will combine many of the discussed ideas into a project. I am interested in building an intermediary contract for transacting blockchain assets.
+
+
+\subsubsection{Extending \ref{onerc721received} ERC721Holder contract} \label{erc721holder}
+
+Currently, our NFT holder contract from section \ref{onerc721received} performs one purpose: to indicate that it is acceptant of ERC721, however we have nothing in the contract that allows us to give any functionality to managing and interacting with an asset held by the contract.
+
+\medskip\noindent
+The contract must be modified to provide functions for depositing and withdrawing an asset from the contract, along with any accessors for the NFT data.
+
+\medskip\noindent
+\begin{itemize}
+\textbf{Our first step will be to define state variables (\ref{data}) and function modifiers (\ref{modifier}) following what we now know of the Solidity programming language:}
+
+\begin{lstlisting}
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract ERC721Holder {
+    /** These are state variables and must be kept track of carefully to prevent token loss */
+    address public nftAddress;
+    uint256 public tokenID;
+    
+    /** The hasToken() modifier will ensure an asset is present in the contract */
+    modifier hasToken() {
+        require(tokenID != 0, "There is no asset held in the contract");
+        _;
+    }
+    /** The noToken() modifier will ensure that no token is present in the contract before 
+     * the function is executed */
+    modifier noToken() {
+        require(tokenID == 0, "There is already an asset in the contract");
+        _;
+    }
+    
+    /** ...... */
+}
+\end{lstlisting}
+\end{itemize}
+
+\medskip\noindent
+Take a moment to examine what we have just added to the contract
+
+\medskip\noindent
+\textbf{1. State variables for keeping track of NFT address and ID number:}
+\begin{itemize}
+    \item \colorbox{Gainsboro!60!Lavender}{address public nftAddress} will be used to store the address of an ERC721 token contract.
+    \item  \colorbox{Gainsboro!60!Lavender}{uint256 public tokenID} stores the unique ID of an ERC721 token.
+\end{itemize}
+\textbf{2. Modifier functions to check if the contract contains a token or not:}
+\begin{itemize}
+    \item \colorbox{Gainsboro!60!Lavender}{hasToken()} ensures that a token is present in the contract before a function is executed.
+    \item \colorbox{Gainsboro!60!Lavender}{noToken()} ensures that no token is present in the contract before a function is executed.
+\end{itemize} 
+
+\medskip\noindent
+Lets use these variables and modifiers to build functions that implement deposit, withdraw, and can access asset metadata:
+
+\begin{itemize}
+\begin{lstlisting}
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
+contract ERC721Holder {
+
+    /** ...... */
+    
+    c
+}
+\end{lstlisting}
+\end{itemize}
+
+\medskip\noindent
+Once again, lets break down what we have added:
+
+\medskip\noindent
+\textbf{1. Import statement}
+\begin{itemize}
+    \item \colorbox{Gainsboro!60!Lavender}{import "@openzeppelin/.../ERC721.sol";} allows our contract to have access to the ERC721 standard library within \cite{OZ}. This is particularly useful because although our contract itself is not an NFT, it needs to understand how to interact with one.
+\end{itemize}
+\textbf{2. Functions}
+\begin{itemize}
+    \item \colorbox{Gainsboro!60!Lavender}{depositAsset()} takes two arguments: an address representing the address of an ERC721 token contract, and a uint256 representing the ID of an ERC721 token. The \texttt{noToken} modifier is applied to the function to ensure that no token is present in the contract before the function is executed. The \texttt{virtual} keyword indicates that this function can be overridden by a derived contract.
+    \item \colorbox{Gainsboro!60!Lavender}{withdrawAsset()}takes one argument: an address representing the address of the recipient of the ERC721 token. The \texttt{hasToken} modifier is applied to the function to ensure that a token is present in the contract before the function is executed. The \texttt{internal} keyword indicates that the function is only visible to functions within the contract system.
+    \item \colorbox{Gainsboro!60!Lavender}{getTokenURI()} applies the \texttt{hasToken} modifier to ensure that a token is present in the contract before the function is executed. The \texttt{public} keyword indicates that the function can be called by anyone, and the \texttt{view} keyword indicates that the function does not modify the state of the contract and only returns a value. The function returns a string representing the URI/metadata of the ERC721 token.
+\end{itemize}
+
+% \medskip\noindent
+\subsubsection{Building a child contract} \label{buildingchild}
+% \paragraph{} and exhibits Solidity asset management security features
+Lets build a child contract to  \colorbox{Gainsboro!60!Lavender}{contract ERC721Holder} we built in \ref{erc721holder}
+
+\medskip\noindent
+The contract we are about to build is defined as  \colorbox{Gainsboro!60!Lavender}{contract NFTListing} and will contain functions to manage an NFT sale listing with an option to limit the sale for a specific buyer. I am hoping that this report will serve as a suitable guide for understanding further code, which I will detail less from this point on, but I have also included more in-depth comments within the actual code. 
+
+\paragraph{Constructing variables (\ref{complex data}) and modifiers (\ref{modifier}) for contract: \colorbox{Gainsboro!60!Lavender}{NFTListing} }
+
+\begin{itemize}
+\begin{lstlisting}
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
+/** ERC721Holder contract provides the basic functionality for custodianship of ERC721 tokens */
+contract NFTListing is ERC721Holder {
+    /** ProjectState enum defines the possible states of the contract */
+    enum ProjectState {emptyVault, fullVault, onSale}
+    /** projectState variable stores the current state of the contract */
+    ProjectState public projectState;
+
+    /** owner variable stores the address of the owner */
+    address payable public owner;
+    /** buyer variable stores the address of the current buyer (if any) */
+    address public buyer;
+    /** price variable stores the price of the NFT being sold */
+    uint256 public price;
+
+    /** inState modifier checks that the contract is in the specified state */
+    modifier inState(ProjectState state) {
+        require(projectState == state, "Invalid contract state to run function");
+        _;
+    }
+
+    /** onlyOwner modifier checks that the caller is the owner */
+    modifier onlyOwner() {
+        require(msg.sender == owner, "You are not the owner");
+        _;
+    }
+
+    /** enoughFunds modifier checks that the value of the message is greater than or equal to the price of the NFT */
+    modifier enoughFunds() {
+        require(msg.value >= price, "Not enough ether sent");
+        _;
+    }
+
+    /** constructor function is called when the contract is deployed. It sets the owner to the deployer's address and the projectState to emptyVault */
+    constructor() {
+        owner = payable(msg.sender);
+        projectState = ProjectState.emptyVault;
+    }
+
+    /** ...functions... */
+}
+\end{lstlisting}
+\end{itemize}
+
+\paragraph{Functions for contract: \colorbox{Gainsboro!60!Lavender}{NFTListing}}
+
+\begin{itemize}
+\begin{lstlisting}
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
+contract ERC721Holder {/** ...... */}
+
+contract NFTListing is ERC721Holder {
+
+    /** ...variables, modifiers, constructor... (previous example contract) */
+    
+    /** depositAsset function allows the owner to deposit an ERC721 token into the contract. It can only be called if the contract is in the emptyVault state and the caller is the owner */
+    function depositAsset(
+        address _NFTAddress,
+        uint256 _TokenID
+    ) public override onlyOwner inState(ProjectState.emptyVault) {
+        super.depositAsset(_NFTAddress, _TokenID);
+        projectState = ProjectState.fullVault;
+    }
+
+    /** initSale function allows the owner to put the NFT up for sale at a specified price it can only be called if the contract is in the fullVault state and the caller is the owner */
+    function initSale(
+        uint256 _price
+    ) public onlyOwner inState(ProjectState.fullVault) {
+        buyer = address(0);
+        price = _price;
+        projectState = ProjectState.onSale;
+    }
+
+    /** initExclusiveSale function allows the owner to put the NFT up for sale exclusively to a specific buyer at a specified price it can only be called if the contract is in the fullVault state and the caller is the owner */
+    function initExclusiveSale(
+        address _buyer,
+        uint256 _price
+    ) public onlyOwner inState(ProjectState.fullVault)
+    {
+        buyer = _buyer;
+        price = _price;
+        projectState = ProjectState.onSale; 
+    }
+
+    /** cancelSale function allows the owner to cancel the sale of the NFT it can only be called if the contract is in the onSale state and the caller is the owner */
+    function cancelSale() public onlyOwner inState(ProjectState.onSale) {
+        buyer = address(0);
+        price = 0;
+        /** withdraw the NFT from the contract and set the nftAddress and tokenID variables to 0 */
+        super.withdrawAsset(owner);
+        projectState = ProjectState.emptyVault;
+    }
+
+    /** purchase function allows a buyer to purchase the NFT by sending the required amount of ether to the contract it can only be called if the contract is in the onSale state and the value of the message is greater than or equal to the price of the NFT */
+    function purchase() public payable enoughFunds inState(ProjectState.onSale) {
+        /** if the sale is exclusive and the caller is not the specified buyer, the function should throw an error */
+        require((buyer != address(0) && msg.sender != buyer), "Exclusive sale, transaction sender isnt buyer");    
+        /** transfer the ether from the contract to the owner */
+        owner.transfer(msg.value);
+        /** withdraw the NFT from the contract and transfer it to the caller */
+        super.withdrawAsset(msg.sender);
+        projectState = ProjectState.emptyVault;
+    }
+}
+\end{lstlisting}
+\end{itemize}
+
+\subsubsection{Understanding our contract} 
+
+\medskip\noindent
+\colorbox{Gainsboro!60!Lavender}{NFTListing} is a Solidity contract that is a subclass of the \colorbox{Gainsboro!60!Lavender}{ERC721Holder} contract, which means it inherits all the properties and functions of the \texttt{ERC721Holder} contract.
+
+\medskip\noindent
+In addition to the inherited properties and functions, \texttt{NFTListing} has its own set of variables and functions. It has an \texttt{enum} \ref{complex data} called \texttt{ProjectState} with three possible values: \texttt{emptyVault}, \texttt{fullVault}, and \texttt{onSale}. This is an approach we have not used previously in the report, but is helpful in using an enum to track the state of the contract, whether it is empty, full, or on sale.
+
+\medskip\noindent
+It also has a public address variable called \texttt{owner} that stores the owner's address, a public address variable called \texttt{buyer} that stores the address of the current buyer (if any), and a public uint256 variable called \texttt{price} that stores the listing price of the NFT being sold.
+
+\medskip\noindent
+\texttt{NFTListing} has three modifiers \ref{modifier}: \texttt{inState}, \texttt{onlyOwner}, and \texttt{enoughFunds}. The \texttt{inState} modifier checks that the contract is in the specified state, the \texttt{onlyOwner} modifier checks that the caller is the owner, and the \texttt{enoughFunds} modifier checks that the value of the message is greater than or equal to the price of the NFT.
+
+\medskip\noindent
+The contract has four functions: \texttt{constructor, depositAsset, initSale,} and \texttt{purchase}. The constructor function is called when the contract is deployed and sets the \texttt{owner} variable to the deployer's address and the \texttt{projectState} variable to \texttt{emptyVault}. 
+
+\medskip\noindent
+The \texttt{depositAsset} function allows the owner to deposit an ERC721 token into the contract, and it can only be called if the contract is in the \texttt{emptyVault} state and the caller is the owner. 
+
+
+\medskip\noindent
+The \texttt{initSale} function allows the owner to put the NFT up for sale at a specified price, and it can only be called if the contract is in the \texttt{fullVault} state and the caller is the owner. 
+
+\medskip\noindent
+The \texttt{purchase} function allows a buyer to purchase the NFT by sending the required amount of ether to the contract, and it can only be called if the contract is in the \texttt{onSale} state and the value of the message is greater than or equal to the price of the NFT.
+
+\subsubsection{Deploying our application}
+
+There are a couple approaches we can take to deploy our contract, for our purposes we will use the \href{https://remix.ethereum.org}{Remix Ethereum IDE} with a built-in test blockchain.
+
+\medskip\noindent
+For completed code, refer to this project's repository: \colorbox{Gainsboro!60!Lavender}{\href{https://github.com/tylew/354-Programming-Languages/tree/main/src/Solidity}{/src/Solidity/}}. In this directory can be found the full \texttt{NFTListing} contract we have written above, along with the following NFT contract which can be used to test the contract:
+
+\begin{itemize}
+\begin{lstlisting}
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
+
+
+contract BasicNFT is ERC721URIStorage {
+    using Counters for Counters.Counter;
+    Counters.Counter private _tokenIds;
+
+    constructor() ERC721("BasicNFT", "BNFT") {}
+
+    function mint(string memory tokenURI) public {
+        _tokenIds.increment();
+
+        uint256 newItemId = _tokenIds.current();
+
+        _safeMint(msg.sender, newItemId);
+        _setTokenURI(newItemId, tokenURI);
+    }
+}
+\end{lstlisting}
+\end{itemize}
+
+\medskip\noindent
+Explore the left menu bar within the Remix IDE. This is a command center for executing contracts and commands on a spoof blockchain. 
+
+\medskip\noindent
+In the "File Explorer" panel, click the "+" button to create a new file. In the new file, write or paste our Solidity contract code. 
+
+\medskip\noindent
+Compile and deploy both contracts using the respective IDE left menu bar panels. The IDE is very self explanitory and I urge you to try and test the functionality of our application. Note: ERC721 tokens must be approved for transfer, meaning the contract address of \texttt{NFTListing} should be explicitly approved within the individual NFT contract.
+
+\medskip\noindent
+
+\subsection{Critical Appraisal}
+
+Analyzing a programming language such as Solidity has been extremely interesting, and there has been information from \cite{PL} that has proven very insightful to the workings of this language. When I started working on this project, I had little experience to writing Solidity and my exposure to the language was very surface level. My goal for this project is to put in one place all the core aspects and foundational knowledge of Solidity. For reference, I have been unable to find a clear, consise tutorial that starts at the basics, and works all the way through deeper concepts. The online tutorials are typically all for beginners, and I needed a tutorial that someone more advanced than that would also value.
 
 \section{Homework}\label{homework}
 
@@ -91,7 +842,7 @@ Output: a.\\\\
 {\large Code (Golang)}
 \begin{lstlisting}
 package main
-import ( "fmt"; "strconv"; "os")
+import ( ”fmt”; ”strconv”; ”os”)
 // Calculate GCD of a & b using Euclid's algorithm
 func Euclid-GCD( a int, b int ) int {
     if a > b { return Euclid_GCD( a-b, b ) } // recursive GCD function
@@ -105,7 +856,7 @@ func Euclid-GCD( a int, b int ) int {
 		gcd := Euclid_GCD( a, b ) // Evaluate GCD of args(int) => a, b
 		fmt.Println(gcd) // Print divisor to console
 		return // End script
-    } fmt.Println("Error", err1, err2) // Errors happened
+    } fmt.Println(”Error”, err1, err2) // Errors happened
 }
 \end{lstlisting}
 
@@ -243,7 +994,7 @@ func other( x, y ) {
 
 \includegraphics[width=1\textwidth]{tree.jpeg}
 
-{\large "More exercises"\\}
+{\large ”More exercises”\\}
 Why do the following strings not have parse trees (given the context-free grammar above)?
 
 \begin{verbatim}
@@ -272,43 +1023,43 @@ Is the abstract syntax tree of 1+2+3 identical to the one of (1+2)+3 or the one 
  No particular right answer.
 \end{verbatim}
 
-\subsection{Week 5 (line 300)} 
+\subsection{Week 5} 
 
 Use the parser to generate linearized abstract syntax trees for the following expressions:
 
 \parindent x
 \begin{verbatim}
-Prog (EVar (Id "x"))
+Prog (EVar (Id ”x”))
 \end{verbatim}
 x x
 \begin{verbatim}
-Prog (EApp (EVar (Id "x")) (EVar (Id "x")))
+Prog (EApp (EVar (Id ”x”)) (EVar (Id ”x”)))
 \end{verbatim}
 x y
 \begin{verbatim}
-Prog (EApp (EVar (Id "x")) (EVar (Id "y")))
+Prog (EApp (EVar (Id ”x”)) (EVar (Id ”y”)))
 \end{verbatim}
 x y z
 \begin{verbatim}
-Prog (EApp (EApp (EVar (Id "x")) (EVar (Id "y"))) (EVar (Id "z")))
+Prog (EApp (EApp (EVar (Id ”x”)) (EVar (Id ”y”))) (EVar (Id ”z”)))
 \end{verbatim}
 \textbackslash x.x
 \begin{verbatim}
-Prog (EAbs (Id "x") (EVar (Id "x")))
+Prog (EAbs (Id ”x”) (EVar (Id ”x”)))
 \end{verbatim}
 \textbackslash x.x x
 \begin{verbatim}
-Prog (EAbs (Id "x") (EApp (EVar (Id "x")) (EVar (Id "x"))))
+Prog (EAbs (Id ”x”) (EApp (EVar (Id ”x”)) (EVar (Id ”x”))))
 \end{verbatim}
 (\textbackslash x . (\textbackslash y . x y)) (\textbackslash x.x) z
 \begin{verbatim}
-Prog (EApp (EApp (EAbs (Id "x") (EAbs (Id "y") (EApp (EVar (Id "x")) (EVar (Id "y"))))) (EAbs (Id "x") 
-(EVar (Id "x")))) (EVar (Id "z")))
+Prog (EApp (EApp (EAbs (Id ”x”) (EAbs (Id ”y”) (EApp (EVar (Id ”x”)) (EVar (Id ”y”))))) (EAbs (Id ”x”) 
+(EVar (Id ”x”)))) (EVar (Id ”z”)))
 \end{verbatim}
 (\textbackslash x . \textbackslash y . x y z) a b c
 \begin{verbatim}
-Prog (EApp (EApp (EApp (EAbs (Id "x") (EAbs (Id "y") (EApp (EApp (EVar (Id "x")) 
-(EVar (Id "y"))) (EVar (Id "z"))))) (EVar (Id "a"))) (EVar (Id "b"))) (EVar (Id "c")))
+Prog (EApp (EApp (EApp (EAbs (Id ”x”) (EAbs (Id ”y”) (EApp (EApp (EVar (Id ”x”)) 
+(EVar (Id ”y”))) (EVar (Id ”z”))))) (EVar (Id ”a”))) (EVar (Id ”b”))) (EVar (Id ”c”)))
 \end{verbatim}
 
 Write out the abstract syntax trees in 2-dimensional notation using pen and paper.
@@ -319,11 +1070,11 @@ Evaluate using pen-and-paper [2] the following expressions:
 
 \includegraphics[width=.5\textwidth]{wk5_lambdasemantics.png}
 
-Evaluate (\x.x)((\y.y)a) by executing the function evalCBN defined on line 26-28 in Interpreter.hs pen-and-paper. The function subst is doing capture avoiding substitution and you can reduce subst in one step in your pen and paper computation
+Evaluate (x.x)((y.y)a) by executing the function evalCBN defined on line 26-28 in Interpreter.hs pen-and-paper. The function subst is doing capture avoiding substitution and you can reduce subst in one step in your pen and paper computation
 
 
 
-\subsection{Week 6 (line 350)}
+\subsection{Week 6 }
 
 \begin{verbatim}
 Reduce the following lambda calculus expression:
@@ -372,7 +1123,7 @@ Algrbra formula:
     f(m,n) = n^m
 \end{verbatim}
 
-\subsection{Week 7 (line 400)}
+\subsection{Week 7}
 
 1. \href{https://github.com/alexhkurz/programming-languages-2022/blob/main/src/LambdaNat0/src/Interpreter-fragment.hs}{REFERENCE}, in lines 5-7 and also in lines 18-22 explain for each variable
 \begin{itemize}
@@ -437,7 +1188,7 @@ Try to find an example of an ARS for each of the possible 8 combinations.
 
 \includegraphics[width=.7\textwidth]{hw7diagram3.jpeg}
 
-\subsection{Week 8 (line 450)}
+\subsection{Week 8}
 Rewrite rules are
 \begin{verbatim}
     aa -> a
@@ -466,7 +1217,7 @@ The normal forms is a reduction determining if the string contains either an a, 
 a’s are sifted to left, while b’s are shifted to right, duplicates are reduced.
 \end{itemize}
 
-\subsection{Week 9 (line 470)}
+\subsection{Week 9}
 
 consider the ARS:
 \begin{verbatim}
@@ -506,7 +1257,7 @@ we are able to observe an invariance with the mathematical function:
 
 \end{itemize}
 
-\subsection{Week 10 (line 520)}
+\subsection{Week 10 }
 
 \begin{verbatim}
 1.
@@ -596,125 +1347,17 @@ On each loop, x iterates down by 1, while T counts up by 1, thus $T = n - x$. Th
 
 % \ldots
 
-\section{Project}
+\section{bibliography}\label{conclusions}
 
-Smart Contract Programming Semantics
-
-\subsection{Specification}
-
-% For my project I will detail the smart contract programming language, Solidity
-% \\\\
-% I will implement an identical project in both languages to explore and showcase key features and differences in either systems. 
-% \\\\
-% My project will be an auction house smart contract in which a seller will lock an NFT object within the contract, and users will bid under some criteria. The contract should act as an escrow service.
-% \\\\
-% Planned milestones are as follows:
-% \begin{itemize}
-%     \item Research and identify key differences between smart-contracting languages. Brainstorm project idea which incorporates notable differences.
-%     \item Build project in both languages and 
-%     \item Compile report on findings
-% \end{itemize}
-    
-% \href{https://www.stephendiehl.com/llvm/}{Possible launch point}
-
-{\bf Solidity} is a programming language used for writing smart contracts on blockchain platforms. It is designed to be backwards-compatible with the Ethereum Virtual Machine (EVM), which is the runtime environment for smart contracts on the Ethereum blockchain.
-
-\medskip\noindent
-{\bf Blockchain} is a distributed ledger technology that enables a network of computers to maintain a shared, immutable record of transactions. Each transaction is recorded in a block, which is cryptographically linked to the previous block in the chain. This creates a permanent and tamper-evident record of all transactions on the network.
-
-\medskip\noindent
-{\bf Blockchain programming} involves developing applications that run on blockchain platforms and make use of their unique features, such as decentralization and immutability. These applications are often called dapps (decentralized applications) and can include a wide range of use cases, from financial services to supply chain management.
-
-\medskip\noindent
-{\bf Solidity Basics}
-
-\medskip\noindent
-Solidity is a statically-typed, object-oriented programming language. It is influenced by C++, Python, and JavaScript, and is designed to be familiar to developers with experience in those languages.
-
-\medskip\noindent
-Solidity programs are called smart contracts, which are self-executing pieces of code that run on the EVM. Smart contracts can interact with the blockchain and with other smart contracts, allowing them to store and transfer data and assets on the network.
-
-\medskip\noindent
-Solidity has several important features that make it well-suited for blockchain programming. These include:
-
-\medskip\noindent
-\begin{itemize}
-\item Support for defining complex data structures, such as arrays and structs
-\item Support for inheritance and polymorphism, allowing for the creation of complex, \item modular code
-\item Support for defining and implementing custom functions and logic
-\item Built-in support for common blockchain operations, such as storing and transferring assets
-\end{itemize}
-
-Solidity also has a number of safety and security features that are important for blockchain programming. These include:
-
-\begin{itemize}
-    \item Static type checking, which ensures that variables and function arguments are used correctly
-\item Support for defining and enforcing contract access controls, which can be used to
-limit the actions that other contracts and users can perform on a contract
-\item Support for defining and enforcing contract permissions, which can be used to limit the actions that a contract can perform on other contracts and assets
-Writing Solidity Smart Contracts
-\item Double spending issue eliminated
-
-\end{itemize}
-
-\medskip\noindent
-Writing a Solidity smart contract involves defining the contract's data structures, functions, and logic, and then deploying the contract to the EVM.
-
-\medskip\noindent
-To define a smart contract in Solidity, a developer must first create a new file with a .sol extension. This file can then be used to define the contract's data structures and functions.
-
-\medskip\noindent
-For example, the following code defines a simple smart contract called AuctionTracker that tracks a highest bidder in an auction and enforces a minimum increment:
-
-\begin{lstlisting}
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.8;
-
-contract AuctionTracker {
-
-    uint16 public bidincrement;
-    address public owner;
-    
-    address public highestbidder;
-    uint256 public highestbid;
-    
-    constructor(uint16 _bidincrement){
-        owner = msg.sender;
-        highestbid = 0;
-        bidincrement = _bidincrement;
-    }
-
-    function bid(uint256 _value) public {
-        require(_value >= highestbid + bidincrement, "bid minumum not met");
-        highestbidder = msg.sender;
-        highestbid = _value;
-    }
-}
-\end{lstlisting}
-
-\begin{itemize}
-    \item License identifier at top of .sol file
-    \item Solidity version identifier
-    \item Contract declared with capital identifier
-    \item State variables declared before any functions
-    \item Constructor, only for most parent contract when using contract (class) inheritance
-\end{itemize}
-
-\subsection{Prototype}
-\subsection{Documentation}
-\subsection{Critical Appraisal}
-
-\ldots
-
-\section{Conclusions}\label{conclusions}
-
-% (approx 400 words)
-
-Thanks, goodbye.
 
 \begin{thebibliography}{99}
 \bibitem[PL]{PL} \href{https://github.com/alexhkurz/programming-languages-2022/blob/main/README.md}{Programming Languages 2022}, Chapman University, 2022.
-\end{thebibliography}
+\bibitem[PR]{PR}\href{https://github.com/tylew/354-Programming-Languages/}{Project repository} \href{https://github.com/alexhkurz/programming-languages-2022/blob/main/README.md}{Programming Languages 2022}, Chapman University, 2022.
+\bibitem[EIP-20]{EIP-20} \href{https://eips.ethereum.org/EIPS/eip-20#abstract}{EIP-20 Token Standard, ethereum.org}
+\bibitem[Solidity Language Documentation]{SD} \href{http://solidity.readthedocs.io}{ solidity.readthedocs.io}
+\bibitem[Open Zeppelin's solidity library]{OZ} \href{https://github.com/OpenZeppelin/openzeppelin-contracts}{OpenZepplin contract library}
+\bibitem[EIP]{eip}\href{https://eips.ethereum.org/}{Ethereum Improvement Proposals}
 
+\end{thebibliography}
 % \includegraphics {sss.png}
 \end{document}
